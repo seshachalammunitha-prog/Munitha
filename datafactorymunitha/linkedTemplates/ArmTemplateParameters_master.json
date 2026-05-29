@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "datafactorymunitha"
+		},
+		"ADLS_accountKey": {
+			"value": ""
+		},
+		"AzureSQL_password": {
+			"value": ""
+		},
+		"lnk_onprem_sql_password": {
+			"value": ""
+		},
+		"ADLS_properties_typeProperties_url": {
+			"value": "https://datalakemunitha.dfs.core.windows.net/"
+		},
+		"AzureSQL_properties_typeProperties_server": {
+			"value": "munitha-db-server.database.windows.net"
+		},
+		"AzureSQL_properties_typeProperties_database": {
+			"value": "munitha-db"
+		},
+		"AzureSQL_properties_typeProperties_userName": {
+			"value": "munithaadmin"
+		},
+		"lnk_onprem_sql_properties_typeProperties_server": {
+			"value": "MUNITHA"
+		},
+		"lnk_onprem_sql_properties_typeProperties_database": {
+			"value": "munitha_db"
+		},
+		"lnk_onprem_sql_properties_typeProperties_userName": {
+			"value": "dedeepya"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
