@@ -1,0 +1,17 @@
+{
+	"name": "DS_SRC_Sql_employee",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lnk_onprem_sql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "employee"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

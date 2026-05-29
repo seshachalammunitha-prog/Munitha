@@ -1,0 +1,17 @@
+{
+	"name": "DS_SRC_Sql_students",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lnk_onprem_sql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Students"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

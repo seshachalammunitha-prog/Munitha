@@ -1,0 +1,17 @@
+{
+	"name": "DS_sink_sql_humanresource",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lnk_onprem_sql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "humanresources",
+			"table": "department"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

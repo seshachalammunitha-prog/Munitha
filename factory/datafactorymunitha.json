@@ -1,0 +1,15 @@
+{
+	"name": "datafactorymunitha",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Enabled",
+			"editable": true
+		}
+	},
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "32f291b4-d68b-47dd-906f-48ba82aa02a3",
+		"tenantId": "cb4ca907-c49a-4aa5-87a5-1c4296c5571b"
+	}
+}
