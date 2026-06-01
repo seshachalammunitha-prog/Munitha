@@ -22,7 +22,7 @@
 						"partitionOption": "None"
 					},
 					"dataset": {
-						"referenceName": "AzureSqlTable2",
+						"referenceName": "DS_LKP_Table",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
