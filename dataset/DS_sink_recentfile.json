@@ -1,0 +1,24 @@
+{
+	"name": "DS_sink_recentfile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSQL",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"tablename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "humanresources",
+			"table": {
+				"value": "@dataset().tablename",
+				"type": "Expression"
+			}
+		}
+	}
+}
