@@ -1047,7 +1047,7 @@
 									{
 										"name": "load_date",
 										"value": {
-											"value": "@formatDateTime(\n    convertTimeZone(utcNow(),'UTC','India Standard Time'),\n    'yyyy-MM-dd'\n)",
+											"value": "@convertFromUtc(utcNow(),'India Standard Time','yyyy-MM-dd HH:mm:ss')",
 											"type": "Expression"
 										}
 									}
