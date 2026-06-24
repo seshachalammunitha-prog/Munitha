@@ -21,7 +21,7 @@
 							{
 								"name": "presentdate",
 								"value": {
-									"value": "@formatDateTime('2026-06-24')",
+									"value": "@formatDateTime('2024-06-24')",
 									"type": "Expression"
 								}
 							}
