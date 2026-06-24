@@ -80,9 +80,6 @@
 					"AzureSQL_password": {
 						"value": "[parameters('AzureSQL_password')]"
 					},
-					"lnk_onprem_sql_password": {
-						"value": "[parameters('lnk_onprem_sql_password')]"
-					},
 					"ADLS_properties_typeProperties_url": {
 						"value": "[parameters('ADLS_properties_typeProperties_url')]"
 					},
@@ -94,15 +91,6 @@
 					},
 					"AzureSQL_properties_typeProperties_userName": {
 						"value": "[parameters('AzureSQL_properties_typeProperties_userName')]"
-					},
-					"lnk_onprem_sql_properties_typeProperties_server": {
-						"value": "[parameters('lnk_onprem_sql_properties_typeProperties_server')]"
-					},
-					"lnk_onprem_sql_properties_typeProperties_database": {
-						"value": "[parameters('lnk_onprem_sql_properties_typeProperties_database')]"
-					},
-					"lnk_onprem_sql_properties_typeProperties_userName": {
-						"value": "[parameters('lnk_onprem_sql_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -121,6 +109,18 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"lnk_onprem_sql_password": {
+						"value": "[parameters('lnk_onprem_sql_password')]"
+					},
+					"lnk_onprem_sql_properties_typeProperties_server": {
+						"value": "[parameters('lnk_onprem_sql_properties_typeProperties_server')]"
+					},
+					"lnk_onprem_sql_properties_typeProperties_database": {
+						"value": "[parameters('lnk_onprem_sql_properties_typeProperties_database')]"
+					},
+					"lnk_onprem_sql_properties_typeProperties_userName": {
+						"value": "[parameters('lnk_onprem_sql_properties_typeProperties_userName')]"
 					}
 				}
 			},
