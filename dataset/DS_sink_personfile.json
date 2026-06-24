@@ -1,0 +1,16 @@
+{
+	"name": "DS_sink_personfile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSQL",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Person",
+			"table": "PersonPhone"
+		}
+	}
+}
