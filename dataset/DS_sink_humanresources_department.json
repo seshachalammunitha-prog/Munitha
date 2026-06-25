@@ -1,0 +1,20 @@
+{
+	"name": "DS_sink_humanresources_department",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "HumanResources.Department.jison",
+				"folderPath": "Data",
+				"fileSystem": "containermunitha"
+			}
+		},
+		"schema": {}
+	}
+}
