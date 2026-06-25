@@ -21,7 +21,7 @@
 							{
 								"name": "load_date",
 								"value": {
-									"value": "@convertFromUtc(utcNow(),'India Standard Time','yyyy-MM-dd HH:mm:ss')",
+									"value": "@formatDateTime(\n    convertFromUtc(utcNow(),'India Standard Time'),\n    'yyyy-MM-dd HH:mm:ss'\n)",
 									"type": "Expression"
 								}
 							}
