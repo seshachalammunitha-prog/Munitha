@@ -1,0 +1,58 @@
+{
+	"name": "DS_SRC_student",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "student_details.json",
+				"folderPath": "Data",
+				"fileSystem": "containermunitha"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"school_name": {
+					"type": "string"
+				},
+				"class": {
+					"type": "string"
+				},
+				"students": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"grade": {
+								"type": "object",
+								"properties": {
+									"math": {
+										"type": "integer"
+									},
+									"physics": {
+										"type": "integer"
+									},
+									"chemistry": {
+										"type": "integer"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,49 @@
+{
+	"name": "DS_sink_students",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSQL",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "school_name",
+				"type": "varchar"
+			},
+			{
+				"name": "class",
+				"type": "varchar"
+			},
+			{
+				"name": "students_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "students_name",
+				"type": "varchar"
+			},
+			{
+				"name": "students_grade_math",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "students_grade_physics",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "students_grade_chemistry",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "school"
+		}
+	}
+}

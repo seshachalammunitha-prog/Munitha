@@ -1,0 +1,36 @@
+{
+	"name": "Json1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "HumanResources.JobCandidate.json",
+				"folderPath": "Data",
+				"fileSystem": "containermunitha"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"JobCandidateID": {
+					"type": "string"
+				},
+				"BusinessEntityID": {
+					"type": "string"
+				},
+				"Resume": {
+					"type": "string"
+				},
+				"ModifiedDate": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}

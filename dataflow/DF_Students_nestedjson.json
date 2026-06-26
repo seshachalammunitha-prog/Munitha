@@ -1,0 +1,78 @@
+{
+	"name": "DF_Students_nestedjson",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_SRC_student",
+						"type": "DatasetReference"
+					},
+					"name": "DSSRCstudentfile"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_sink_students",
+						"type": "DatasetReference"
+					},
+					"name": "DSsinkstudentsfile"
+				}
+			],
+			"transformations": [
+				{
+					"name": "flatten1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          school_name as string,",
+				"          class as string,",
+				"          students as (id as string, name as string, grade as (math as integer, physics as integer, chemistry as integer))[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'arrayOfDocuments') ~> DSSRCstudentfile",
+				"DSSRCstudentfile foldDown(unroll(students, students),",
+				"     mapColumn(",
+				"          school_name,",
+				"          class,",
+				"          students",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1",
+				"flatten1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          school_name as string,",
+				"          class as string,",
+				"          students_id as integer,",
+				"          students_name as string,",
+				"          students_grade_math as integer,",
+				"          students_grade_physics as integer,",
+				"          students_grade_chemistry as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          school_name,",
+				"          class,",
+				"          students_id = students.id,",
+				"          students_name = students.name,",
+				"          students_grade_math = students.grade.math,",
+				"          students_grade_physics = students.grade.physics,",
+				"          students_grade_chemistry = students.grade.chemistry",
+				"     )) ~> DSsinkstudentsfile"
+			]
+		}
+	}
+}
