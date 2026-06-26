@@ -1,0 +1,37 @@
+{
+	"name": "DS_sink_humanResources_jobcandidate",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSQL",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "JobCandidateID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BusinessEntityID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Resume",
+				"type": "xml"
+			},
+			{
+				"name": "ModifiedDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "HumanResources",
+			"table": "JobCandidate"
+		}
+	}
+}

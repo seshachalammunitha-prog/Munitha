@@ -1,0 +1,36 @@
+{
+	"name": "DS_SRC_humanresourcesdepartment",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "HumanResources.department.json",
+				"folderPath": "Data",
+				"fileSystem": "containermunitha"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"DepartmentID": {
+					"type": "string"
+				},
+				"Name": {
+					"type": "string"
+				},
+				"GroupName": {
+					"type": "string"
+				},
+				"ModifiedDate": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
