@@ -806,6 +806,52 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PL_Students_nested_json')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "nestedjson_sql",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_Students_nestedjson",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DSSRCstudentfile": {},
+									"DSsinkstudentsfile": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/DF_Students_nestedjson')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PL_copy_Adls_sql_humanresources')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -2375,6 +2421,69 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_SRC_student')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ADLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "student_details.json",
+						"folderPath": "Data",
+						"fileSystem": "containermunitha"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"school_name": {
+							"type": "string"
+						},
+						"class": {
+							"type": "string"
+						},
+						"students": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string"
+									},
+									"name": {
+										"type": "string"
+									},
+									"grade": {
+										"type": "object",
+										"properties": {
+											"math": {
+												"type": "integer"
+											},
+											"physics": {
+												"type": "integer"
+											},
+											"chemistry": {
+												"type": "integer"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ADLS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DS_SR_human')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3185,6 +3294,60 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_sink_students')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSQL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "school_name",
+						"type": "varchar"
+					},
+					{
+						"name": "class",
+						"type": "varchar"
+					},
+					{
+						"name": "students_id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "students_name",
+						"type": "varchar"
+					},
+					{
+						"name": "students_grade_math",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "students_grade_physics",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "students_grade_chemistry",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "school"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSQL')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/GM_human')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3224,6 +3387,47 @@
 						"type": "String"
 					}
 				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ADLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Json1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ADLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "HumanResources.JobCandidate.json",
+						"folderPath": "Data",
+						"fileSystem": "containermunitha"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"JobCandidateID": {
+							"type": "string"
+						},
+						"BusinessEntityID": {
+							"type": "string"
+						},
+						"Resume": {
+							"type": "string"
+						},
+						"ModifiedDate": {
+							"type": "string"
+						}
+					}
+				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ADLS')]"
@@ -3418,6 +3622,90 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_Sql_Employee')]",
 				"[concat(variables('factoryId'), '/datasets/DS_CSV_Employee')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_Students_nestedjson')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_SRC_student",
+								"type": "DatasetReference"
+							},
+							"name": "DSSRCstudentfile"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DS_sink_students",
+								"type": "DatasetReference"
+							},
+							"name": "DSsinkstudentsfile"
+						}
+					],
+					"transformations": [
+						{
+							"name": "flatten1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          school_name as string,",
+						"          class as string,",
+						"          students as (id as string, name as string, grade as (math as integer, physics as integer, chemistry as integer))[]",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'arrayOfDocuments') ~> DSSRCstudentfile",
+						"DSSRCstudentfile foldDown(unroll(students, students),",
+						"     mapColumn(",
+						"          school_name,",
+						"          class,",
+						"          students",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> flatten1",
+						"flatten1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          school_name as string,",
+						"          class as string,",
+						"          students_id as integer,",
+						"          students_name as string,",
+						"          students_grade_math as integer,",
+						"          students_grade_physics as integer,",
+						"          students_grade_chemistry as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          school_name,",
+						"          class,",
+						"          students_id = students.id,",
+						"          students_name = students.name,",
+						"          students_grade_math = students.grade.math,",
+						"          students_grade_physics = students.grade.physics,",
+						"          students_grade_chemistry = students.grade.chemistry",
+						"     )) ~> DSsinkstudentsfile"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SRC_student')]",
+				"[concat(variables('factoryId'), '/datasets/DS_sink_students')]"
 			]
 		}
 	]

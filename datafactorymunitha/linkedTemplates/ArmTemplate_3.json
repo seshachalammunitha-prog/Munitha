@@ -13,6 +13,247 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_sink_sql_multiple')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "lnk_onprem_sql",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"schemaname": {
+						"type": "string"
+					},
+					"tablename": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().schemaname",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().tableName",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_Employee_load')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_Sql_Employee",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DS_CSV_Employee",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          BusinessEntityID as string,",
+						"          NationalIDNumber as string,",
+						"          LoginID as string,",
+						"          OrganizationNode as string,",
+						"          OrganizationLevel as string,",
+						"          JobTitle as string,",
+						"          BirthDate as string,",
+						"          MaritalStatus as string,",
+						"          Gender as string,",
+						"          HireDate as string,",
+						"          SalariedFlag as string,",
+						"          VacationHours as string,",
+						"          SickLeaveHours as string,",
+						"          CurrentFlag as string,",
+						"          rowguid as string,",
+						"          ModifiedDate as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          BusinessEntityID as integer,",
+						"          NationalIDNumber as string,",
+						"          LoginID as string,",
+						"          OrganizationNode as string,",
+						"          OrganizationLevel as integer,",
+						"          JobTitle as string,",
+						"          BirthDate as date,",
+						"          MaritalStatus as string,",
+						"          Gender as string,",
+						"          HireDate as date,",
+						"          SalariedFlag as boolean,",
+						"          VacationHours as integer,",
+						"          SickLeaveHours as integer,",
+						"          CurrentFlag as boolean,",
+						"          rowguid as string,",
+						"          ModifiedDate as timestamp",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_Students_nestedjson')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_SRC_student",
+								"type": "DatasetReference"
+							},
+							"name": "DSSRCstudentfile"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DS_sink_students",
+								"type": "DatasetReference"
+							},
+							"name": "DSsinkstudentsfile"
+						}
+					],
+					"transformations": [
+						{
+							"name": "flatten1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          school_name as string,",
+						"          class as string,",
+						"          students as (id as string, name as string, grade as (math as integer, physics as integer, chemistry as integer))[]",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     documentForm: 'arrayOfDocuments') ~> DSSRCstudentfile",
+						"DSSRCstudentfile foldDown(unroll(students, students),",
+						"     mapColumn(",
+						"          school_name,",
+						"          class,",
+						"          students",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> flatten1",
+						"flatten1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          school_name as string,",
+						"          class as string,",
+						"          students_id as integer,",
+						"          students_name as string,",
+						"          students_grade_math as integer,",
+						"          students_grade_physics as integer,",
+						"          students_grade_chemistry as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          school_name,",
+						"          class,",
+						"          students_id = students.id,",
+						"          students_name = students.name,",
+						"          students_grade_math = students.grade.math,",
+						"          students_grade_physics = students.grade.physics,",
+						"          students_grade_chemistry = students.grade.chemistry",
+						"     )) ~> DSsinkstudentsfile"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_Adls_sql_HumanEmployee')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_Employee_load",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/DF_Employee_load')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PL_Copy_Sql_to_Adls_Students')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -284,6 +525,52 @@
 				"lastPublishTime": "2026-05-29T11:29:27Z"
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_Students_nested_json')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "nestedjson_sql",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "DF_Students_nestedjson",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"DSSRCstudentfile": {},
+									"DSsinkstudentsfile": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/DF_Students_nestedjson')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/PL_copy_Adls_sql_humanresources')]",
