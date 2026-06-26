@@ -109,18 +109,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"lnk_onprem_sql_password": {
-						"value": "[parameters('lnk_onprem_sql_password')]"
-					},
-					"lnk_onprem_sql_properties_typeProperties_server": {
-						"value": "[parameters('lnk_onprem_sql_properties_typeProperties_server')]"
-					},
-					"lnk_onprem_sql_properties_typeProperties_database": {
-						"value": "[parameters('lnk_onprem_sql_properties_typeProperties_database')]"
-					},
-					"lnk_onprem_sql_properties_typeProperties_userName": {
-						"value": "[parameters('lnk_onprem_sql_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -141,11 +129,43 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"lnk_onprem_sql_password": {
+						"value": "[parameters('lnk_onprem_sql_password')]"
+					},
+					"lnk_onprem_sql_properties_typeProperties_server": {
+						"value": "[parameters('lnk_onprem_sql_properties_typeProperties_server')]"
+					},
+					"lnk_onprem_sql_properties_typeProperties_database": {
+						"value": "[parameters('lnk_onprem_sql_properties_typeProperties_database')]"
+					},
+					"lnk_onprem_sql_properties_typeProperties_userName": {
+						"value": "[parameters('lnk_onprem_sql_properties_typeProperties_userName')]"
 					}
 				}
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'datafactorymunitha_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "datafactorymunitha_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'datafactorymunitha_ArmTemplate_2')]"
 			]
 		}
 	]
